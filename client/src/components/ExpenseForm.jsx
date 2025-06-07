@@ -55,7 +55,7 @@ export default function ExpenseForm() {
 
   const submit = async e => {
     e.preventDefault();
-    await api.post(`${process.env.REACT_APP_BACKEND_URL}/transactions`, {
+    await api.post(`/transactions`, {
       description: data.desc,
       amount: parseFloat(data.amount),
     });
