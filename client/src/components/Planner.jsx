@@ -294,7 +294,7 @@ export default function Planner() {
   useEffect(() => {
   async function loadPlanner() {
     try {
-      const res = await api.get(`${process.env.REACT_APP_BACKEND_URL}/planner/${month}`);
+      const res = await api.get(`/planner/${month}`);
       setBudget(res.data.budget || 0);
 
       // Populate categoryLimits directly into `limits`
@@ -316,7 +316,7 @@ export default function Planner() {
   // Save planner (budget + limits + expenses)
   const savePlanner = async () => {
     try {
-      await api.post(`${process.env.REACT_APP_BACKEND_URL}/planner`, {
+      await api.post(`/planner`, {
         month,
         budget,
         category,
@@ -333,7 +333,7 @@ export default function Planner() {
   // Recalculate forecast (trigger retrain)
   const recalculateForecast = async () => {
     try {
-      const res = await api.post(`${process.env.REACT_APP_BACKEND_URL}/planner/retrain`, {
+      const res = await api.post(`/planner/retrain`, {
         month,
         futureExpenses: expenses,
       });
