@@ -241,31 +241,31 @@ export default function InsightsNew() {
   const loadInsights = async () => {
     try {
       // 1) /planner/:month → { budget, futureExpenses: [...], categoryLimits: {...} }
-      const plRes = await api.get(`${process.env.REACT_APP_BACKEND_URL}/planner/${month}`);
+      const plRes = await api.get(`/planner/${month}`);
       setPlanner(plRes.data);
 
       // 2) /insights/predict → { prediction }
-      const pRes = await api.get(`${process.env.REACT_APP_BACKEND_URL}/insights/predict`);
+      const pRes = await api.get(`/insights/predict`);
       setPredicted(pRes.data.prediction);
       setdaywise(pRes.data.daywise)
       setAvgTxn(pRes.data.avgTxnsPerDay)
 
-      const resCat = await api.get(`${process.env.REACT_APP_BACKEND_URL}/insights/categories`);
+      const resCat = await api.get(`/insights/categories`);
       setByCategory(resCat.data);
 
       // 3) /insights/categories?month=YYYY-MM  (this month’s actual spending)
       const thisCatRes = await api.get(
-        `${process.env.REACT_APP_BACKEND_URL}/insights/monthlycategories?month=${month}`
+        `/insights/monthlycategories?month=${month}`
       );
       setCategoryThis(thisCatRes.data);
 
       // 4) /insights/categories?month=LAST_MONTH  (last month spending)
       const lastMonth = decrementMonth(month);
-      const lastCatRes = await api.get(`${process.env.REACT_APP_BACKEND_URL}/insights/categories?month=${lastMonth}`);
+      const lastCatRes = await api.get(`/insights/categories?month=${lastMonth}`);
       setCategoryLast(lastCatRes.data);
 
       // 5) /insights/trend → [ {month, total}, … ]
-      const trRes = await api.get(`${process.env.REACT_APP_BACKEND_URL}/insights/trend`);
+      const trRes = await api.get(`/insights/trend`);
       setTrend(trRes.data);
     } catch (err) {
       console.error('Error loading insights:', err);
@@ -408,7 +408,7 @@ export default function InsightsNew() {
 
         try {
           // Pass `planner` and `message` as query params (GET cannot have a body)
-          const { data } = await api.post(`${process.env.REACT_APP_BACKEND_URL}/insights/getinsights`, {
+          const { data } = await api.post(`/insights/getinsights`, {
             budget: planner.budget,
             expense: planner.futureExpenses,
             limits: planner.categoryLimits
