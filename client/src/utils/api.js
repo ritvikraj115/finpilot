@@ -2,10 +2,17 @@
 import axios from 'axios';
 import { getToken, clearToken } from './auth';
 
-// Create an Axios instance
+const isProd = process.env.REACT_APP_NODE_ENV === 'production';
+
+const API_BASE =
+  (isProd && process.env.REACT_APP_BACKEND_URL) ||
+  (isProd && `${window.location.origin}/api`) ||
+  '/api';
+
+
 const api = axios.create({
-  baseURL: '/api',            // thanks to your proxy, this → http://localhost:5000/api
-  timeout: 10000,
+  baseURL: API_BASE,
+  timeout: 10_000,
 });
 
 // Request interceptor: attach token
