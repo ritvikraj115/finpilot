@@ -337,7 +337,7 @@ export default function Planner() {
         month,
         futureExpenses: expenses,
       });
-      alert(res.data.message || "Forecast recalculated.");
+      console.log(res)
     } catch (err) {
       console.error("Error recalculating forecast:", err);
       alert("Failed to recalculate forecast.");
