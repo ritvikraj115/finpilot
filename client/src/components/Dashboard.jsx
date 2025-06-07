@@ -65,19 +65,19 @@ export default function Dashboard() {
     async function loadData() {
       try {
         // a) Categories (spentByCategory)
-        const resCat = await api.get(`${process.env.REACT_APP_BACKEND_URL}/insights/categories`);
+        const resCat = await api.get(`/insights/categories`);
         setByCategory(resCat.data);
 
-        const resRecent = await api.get(`${process.env.REACT_APP_BACKEND_URL}/transactions/recent`);
+        const resRecent = await api.get(`/transactions/recent`);
         setRecentTransactions(resRecent.data);
 
         // b) Trend (monthly totals)
-        const resTrend = await api.get(`${process.env.REACT_APP_BACKEND_URL}/insights/trend`);
+        const resTrend = await api.get(`/insights/trend`);
         setTrend(resTrend.data);
 
         const now = new Date();
         const currentMonth = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}`; // e.g., "2025-06"
-        const resPlanner = await api.get(`${process.env.REACT_APP_BACKEND_URL}/planner/${currentMonth}`);
+        const resPlanner = await api.get(`/planner/${currentMonth}`);
         console.log(resPlanner.data.budget)
         setUserBudgets(resPlanner.data.budget || 0);
         setBills(resPlanner.data.futureExpenses)
