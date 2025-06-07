@@ -71,7 +71,7 @@ export default function Login() {
 
   const submit = async e => {
     e.preventDefault();
-    const res = await api.post(`${process.env.REACT_APP_BACKEND_URL}/auth/login`, form);
+    const res = await api.post(`/auth/login`, form);
     setToken(res.data.token);
     navigate('/dashboard');
   };
