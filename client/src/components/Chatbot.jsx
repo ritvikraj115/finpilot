@@ -133,7 +133,7 @@ export default function Chatbot() {
 
     // 3) Send to advisor, passing planner
     try {
-      const res = await api.post(`${process.env.REACT_APP_BACKEND_URL}/advisor/chat`, {
+      const res = await api.post(`/advisor/chat`, {
         message: messageText,
         planner,
       });
