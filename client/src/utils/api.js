@@ -5,7 +5,7 @@ import { getToken, clearToken } from './auth';
 const isProd = process.env.REACT_APP_NODE_ENV === 'production';
 
 const API_BASE =
-  (isProd && process.env.REACT_APP_BACKEND_URL) ||
+  (isProd && `${process.env.REACT_APP_BACKEND_URL}/api`) ||
   (isProd && `${window.location.origin}/api`) ||
   '/api';
 
