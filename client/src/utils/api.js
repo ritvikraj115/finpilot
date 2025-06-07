@@ -12,7 +12,7 @@ const API_BASE =
 
 const api = axios.create({
   baseURL: API_BASE,
-  timeout: 10_000,
+  timeout: 10 * 60 * 1000, // 10 minutes in ms
 });
 
 // Request interceptor: attach token
