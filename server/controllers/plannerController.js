@@ -51,6 +51,7 @@ exports.recalculateForecast = async (req, res, next) => {
     const recent = hist.slice(-365); // take at most 365
     const series = recent.map(d => d.amount);
     const mlRes = await axios.post(`${process.env.MLSERVICE_URL}/retrain`, { series });
+    console.log(mlRes.data)
     res.json({ message: 'Retraining triggered.', mlStatus: mlRes.data.status });
   } catch (err) {
     console.error(err);
