@@ -38,15 +38,31 @@ that this transaction fulfills. If none match, respond with [].
         contents: prompt
       })
 
+      function extractJson(text) {
+      // 1) Remove any ```json and ``` fences
+      // 2) Trim whitespace
+      const fenced = text.match(/```json\s*([\s\S]*?)```/) 
+                   || text.match(/```([\s\S]*?)```/)
+      const raw = fenced 
+        ? fenced[1] 
+        : text;
+      return raw.trim();
+    }
+
       // 6) Parse matches
       let matches = [];
       try {
         const content = geminiResponse.candidates[0].content.parts[0].text
           || geminiResponse.data?.choices?.[0]?.message?.content
           || '[]';
-        console.log(content)
-        matches = JSON.parse(content);
-        console.log(matches)
+        const jsonText = extractJson(content);
+        let matches = [];
+        try {
+          matches = JSON.parse(jsonText);
+          console.log("Parsed matches:", matches);
+        } catch (parseErr) {
+          console.warn("JSON parse failed on:", jsonText, "\n", parseErr);
+        }
       } catch (parseErr) {
         console.warn('Could not parse Gemini response:', parseErr);
       }
