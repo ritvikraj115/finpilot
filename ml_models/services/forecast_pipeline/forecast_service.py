@@ -45,13 +45,20 @@ scaler = joblib.load(SCALER_PATH)
 
 @app.route('/predict', methods=['POST'])
 def predict():
-    # In your forecast_service.py (or wherever your /predict route lives):
-    BASE_DIR = os.path.dirname(  # services/forecast_pipeline
-        os.path.dirname(          # services
-            os.path.dirname(__file__)  # ml_models/services/forecast_pipeline
-        )
-    )
-    MODEL_PATH = os.path.join(BASE_DIR, "models", "expense_category_model.pkl")
+     # Compute path however you’re doing it:
+    MODEL_PATH = os.path.join(current_app.root_path, '..', 'models', 'expense_category_model.pkl')
+    MODEL_PATH = os.path.normpath(MODEL_PATH)
+
+    # Diagnostics
+    print("Working directory:", os.getcwd())
+    print("app.root_path   :", current_app.root_path)
+    print("Looking for file at:", MODEL_PATH)
+    print("Exists? ", os.path.exists(MODEL_PATH))
+    if not os.path.exists(MODEL_PATH):
+        files_here = os.listdir(os.path.dirname(MODEL_PATH))
+        print("Files in that folder:", files_here)
+
+    # Now load
     model = joblib.load(MODEL_PATH)
     data = request.get_json()
     description = data.get('description', '')
