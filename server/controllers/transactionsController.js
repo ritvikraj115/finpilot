@@ -62,8 +62,15 @@ that this transaction fulfills. If none match, respond with [].
       } catch (parseErr) {
         console.warn('Could not parse Gemini response:', parseErr);
       }
-      console.log(Array.isArray(matches) && matches.length > 0)
-      console.log(matches.length)
+      console.log(">>> RAW LLM CONTENT:\n", content);
+console.log(">>> PARSED matches variable:", matches);
+console.log("    • typeof matches       =", typeof matches);
+console.log("    • Array.isArray(matches)=", Array.isArray(matches));
+console.log("    • matches.length       =", matches && matches.length);
+matches.forEach((m, i) => 
+  console.log(`    [${i}] (“${m}”), length=${m.length}`)
+);
+
 
       // 7) Remove matched future expenses
       if (Array.isArray(matches) && matches.length > 0) {
