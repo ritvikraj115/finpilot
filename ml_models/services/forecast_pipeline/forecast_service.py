@@ -31,21 +31,28 @@ app = Flask(__name__)
 model = load_model(MODEL_PATH)
 scaler = joblib.load(SCALER_PATH)
 
-# Preflight
-@app.route("/predict", methods=["OPTIONS"])
-def predict_preflight():
-    resp = make_response()
-    resp.headers["Access-Control-Allow-Origin"]      = "https://finpilot-pi.vercel.app"
-    resp.headers["Access-Control-Allow-Methods"]     = "POST,OPTIONS"
-    resp.headers["Access-Control-Allow-Headers"]     = "Content-Type,Authorization"
-    resp.headers["Access-Control-Allow-Credentials"] = "true"
-    return resp
+# # Preflight
+# @app.route("/predict", methods=["OPTIONS"])
+# def predict_preflight():
+#     resp = make_response()
+#     resp.headers["Access-Control-Allow-Origin"]      = "https://finpilot-pi.vercel.app"
+#     resp.headers["Access-Control-Allow-Methods"]     = "POST,OPTIONS"
+#     resp.headers["Access-Control-Allow-Headers"]     = "Content-Type,Authorization"
+#     resp.headers["Access-Control-Allow-Credentials"] = "true"
+#     return resp
 
 
 
 @app.route('/predict', methods=['POST'])
 def predict():
-    model = joblib.load(CATEGORY_MODEL_PATH)
+    # In your forecast_service.py (or wherever your /predict route lives):
+    BASE_DIR = os.path.dirname(  # services/forecast_pipeline
+        os.path.dirname(          # services
+            os.path.dirname(__file__)  # ml_models/services/forecast_pipeline
+        )
+    )
+    MODEL_PATH = os.path.join(BASE_DIR, "models", "expense_category_model.pkl")
+    model = joblib.load(MODEL_PATH)
     data = request.get_json()
     description = data.get('description', '')
     
