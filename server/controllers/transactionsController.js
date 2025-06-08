@@ -57,15 +57,13 @@ that this transaction fulfills. If none match, respond with [].
           || '[]';
         const jsonText = extractJson(content);
         let matches = [];
-        try {
-          matches = JSON.parse(jsonText);
-          console.log("Parsed matches:", matches);
-        } catch (parseErr) {
-          console.warn("JSON parse failed on:", jsonText, "\n", parseErr);
-        }
+        matches = JSON.parse(jsonText);
+        console.log("Parsed matches:", matches);
       } catch (parseErr) {
         console.warn('Could not parse Gemini response:', parseErr);
       }
+      console.log(Array.isArray(matches) && matches.length > 0)
+      console.log(matches.length)
 
       // 7) Remove matched future expenses
       if (Array.isArray(matches) && matches.length > 0) {
