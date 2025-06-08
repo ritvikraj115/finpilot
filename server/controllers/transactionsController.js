@@ -62,7 +62,6 @@ that this transaction fulfills. If none match, respond with [].
       } catch (parseErr) {
         console.warn('Could not parse Gemini response:', parseErr);
       }
-      console.log(">>> RAW LLM CONTENT:\n", content);
 console.log(">>> PARSED matches variable:", matches);
 console.log("    • typeof matches       =", typeof matches);
 console.log("    • Array.isArray(matches)=", Array.isArray(matches));
