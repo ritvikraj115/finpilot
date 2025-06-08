@@ -56,6 +56,7 @@ that this transaction fulfills. If none match, respond with [].
         planner.futureExpenses = planner.futureExpenses.filter(
           fe => !matches.includes(fe.description)
         );
+        console.log(planner)
         await planner.save();
       }
     }
