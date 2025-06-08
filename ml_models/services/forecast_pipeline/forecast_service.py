@@ -45,7 +45,7 @@ def predict_preflight():
 
 @app.route('/predict', methods=['POST'])
 def predict():
-    MODEL_PATH = '../../models/expense_category_model.pkl'
+    MODEL_PATH = 'expense_category_model.pkl'
     model = joblib.load(MODEL_PATH)
     data = request.get_json()
     description = data.get('description', '')
