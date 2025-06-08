@@ -8,7 +8,7 @@ import pandas as pd
 from datetime import datetime, timedelta
 import joblib
 from tensorflow.keras.models import load_model
-from config import FILE_PATH
+from config import FILE_PATH, CATEGORY_MODEL_PATH, MODEL_PATH, SCALER_PATH
 import os
 
 # Initialize Flask app
@@ -21,8 +21,8 @@ CORS(app, resources={r"/*": {"origins": "*"}})
 SEQ_LEN = 30
 HORIZON = 7
 FEATURE_COLS = ['log_amt', 'dow', 'is_weekend']
-MODEL_PATH = 'saved_lstm_model.h5.h5'
-SCALER_PATH = 'scaler.pkl'
+# MODEL_PATH = 'saved_lstm_model.h5.h5'
+# SCALER_PATH = 'scaler.pkl'
 
 # Initialize Flask app
 app = Flask(__name__)
@@ -45,8 +45,7 @@ def predict_preflight():
 
 @app.route('/predict', methods=['POST'])
 def predict():
-    MODEL_PATH = 'expense_category_model.pkl'
-    model = joblib.load(MODEL_PATH)
+    model = joblib.load(CATEGORY_MODEL_PATH)
     data = request.get_json()
     description = data.get('description', '')
     
