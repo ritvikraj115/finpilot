@@ -48,7 +48,7 @@ scaler = joblib.load(SCALER_PATH)
 @app.route('/predict', methods=['POST'])
 def predict():
      # Compute path however you’re doing it:
-    MODEL_PATH = os.path.join(current_app.root_path, '..', 'models', 'expense_category_model.pkl')
+    MODEL_PATH = os.path.join(current_app.root_path, '..', 'models', 'expense_category_model .pkl')
     MODEL_PATH = os.path.normpath(MODEL_PATH)
 
     # Diagnostics
