@@ -531,7 +531,7 @@ export default function Planner() {
         <FormSection>
           <SectionTitle>Category Limits (₹)</SectionTitle>
           <Grid3>
-            {["Food", "Education", "Apparel", "Transportation", "Household", "Miscellaneous"].map(
+            {["Food", "Education", "Apparel", "Transportation", "Household", "Others"].map(
               (cat) => (
                 <div key={cat}>
                   <StyledLabel>{cat}</StyledLabel>
