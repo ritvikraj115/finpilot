@@ -20,7 +20,7 @@ const plannerSchema = new mongoose.Schema({
     Apparel:        { type: Number, default: 0 },
     Transportation: { type: Number, default: 0 },
     Household:      { type: Number, default: 0 },
-    Miscellaneous:  { type: Number, default: 0 }
+    Others:         { type: Number, default: 0 }
   },
 
   futureExpenses: [futureExpenseSchema]
