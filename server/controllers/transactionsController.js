@@ -41,10 +41,10 @@ that this transaction fulfills. If none match, respond with [].
       // 6) Parse matches
       let matches = [];
       try {
-        const content = geminiResponse.candidates[0].content.parts[0].text
+        const content2 = geminiResponse.candidates[0].content.parts[0].text
           || geminiResponse.data?.choices?.[0]?.message?.content
           || '[]';
-        content = content
+        const content = content2
         .replace(/```json\s*/, '')  // remove leading ```json
         .replace(/```/g, '')        // remove any remaining ```
         .trim();
