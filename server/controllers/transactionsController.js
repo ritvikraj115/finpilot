@@ -38,27 +38,15 @@ that this transaction fulfills. If none match, respond with [].
         contents: prompt
       })
 
-      function extractJson(text) {
-      // 1) Remove any ```json and ``` fences
-      // 2) Trim whitespace
-      const fenced = text.match(/```json\s*([\s\S]*?)```/) 
-                   || text.match(/```([\s\S]*?)```/)
-      const raw = fenced 
-        ? fenced[1] 
-        : text;
-      return raw.trim();
-    }
-
       // 6) Parse matches
       let matches = [];
       try {
         const content = geminiResponse.candidates[0].content.parts[0].text
           || geminiResponse.data?.choices?.[0]?.message?.content
           || '[]';
-        const jsonText = extractJson(content);
-        let matches = [];
-        matches = JSON.parse(jsonText);
-        console.log("Parsed matches:", matches);
+        console.log(content)
+        matches = JSON.parse(content);
+        console.log(matches)
       } catch (parseErr) {
         console.warn('Could not parse Gemini response:', parseErr);
       }
@@ -68,7 +56,6 @@ that this transaction fulfills. If none match, respond with [].
         planner.futureExpenses = planner.futureExpenses.filter(
           fe => !matches.includes(fe.description)
         );
-        console.log(planner)
         await planner.save();
       }
     }
@@ -106,4 +93,5 @@ exports.getRecentTransactions = async (req, res, next) => {
     next(err);
   }
 };
+
 
