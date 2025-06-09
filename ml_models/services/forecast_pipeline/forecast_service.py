@@ -71,9 +71,12 @@ def predict():
     # Predict category
     pred = model.predict([description])
     category = pred[0]
-    print(pred)
-    
-    return jsonify({'category': category})
+    resp = make_response(jsonify({'category': category}))
+
+    # Add CORS headers to POST response
+    resp.headers["Access-Control-Allow-Origin"]      = "https://finpilot-pi.vercel.app"
+    resp.headers["Access-Control-Allow-Credentials"] = "true"
+    return resp
 
 
 
