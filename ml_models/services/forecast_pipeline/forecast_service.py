@@ -33,15 +33,15 @@ app = Flask(__name__)
 model = load_model(MODEL_PATH)
 scaler = joblib.load(SCALER_PATH)
 
-# # Preflight
-# @app.route("/predict", methods=["OPTIONS"])
-# def predict_preflight():
-#     resp = make_response()
-#     resp.headers["Access-Control-Allow-Origin"]      = "https://finpilot-pi.vercel.app"
-#     resp.headers["Access-Control-Allow-Methods"]     = "POST,OPTIONS"
-#     resp.headers["Access-Control-Allow-Headers"]     = "Content-Type,Authorization"
-#     resp.headers["Access-Control-Allow-Credentials"] = "true"
-#     return resp
+# Preflight
+@app.route("/predict", methods=["OPTIONS"])
+def predict_preflight():
+    resp = make_response()
+    resp.headers["Access-Control-Allow-Origin"]      = "https://finpilot-pi.vercel.app"
+    resp.headers["Access-Control-Allow-Methods"]     = "POST,OPTIONS"
+    resp.headers["Access-Control-Allow-Headers"]     = "Content-Type,Authorization"
+    resp.headers["Access-Control-Allow-Credentials"] = "true"
+    return resp
 
 
 
