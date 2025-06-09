@@ -44,7 +44,12 @@ that this transaction fulfills. If none match, respond with [].
         const content = geminiResponse.candidates[0].content.parts[0].text
           || geminiResponse.data?.choices?.[0]?.message?.content
           || '[]';
-        console.log(content)
+        content = content
+        .replace(/```json\s*/, '')  // remove leading ```json
+        .replace(/```/g, '')        // remove any remaining ```
+        .trim();
+
+        console.log('Cleaned content:', content);
         matches = JSON.parse(content);
         console.log(typeof(matches))
       } catch (parseErr) {
