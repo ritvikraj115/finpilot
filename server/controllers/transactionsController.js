@@ -46,7 +46,7 @@ that this transaction fulfills. If none match, respond with [].
           || '[]';
         console.log(content)
         matches = JSON.parse(content);
-        console.log(matches)
+        console.log(typeof(matches))
       } catch (parseErr) {
         console.warn('Could not parse Gemini response:', parseErr);
       }
