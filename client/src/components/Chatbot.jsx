@@ -1,10 +1,10 @@
 // client/src/components/Chatbot.jsx
-
 import React, { useState, useEffect, useRef } from "react";
 import styled from "styled-components";
 import api from "../utils/api";
 
 const Container = styled.div`
+  width: 100%;
   max-width: 600px;
   margin: 2rem auto;
   background: #ffffff;
@@ -14,6 +14,11 @@ const Container = styled.div`
   flex-direction: column;
   height: 70vh;
   overflow: hidden;
+
+  @media (max-width: 768px) {
+    margin: 1rem;
+    height: 60vh;
+  }
 `;
 
 const Header = styled.div`
@@ -24,6 +29,11 @@ const Header = styled.div`
   font-weight: 600;
   border-top-left-radius: 12px;
   border-top-right-radius: 12px;
+
+  @media (max-width: 480px) {
+    font-size: 1.1rem;
+    padding: 0.75rem 1rem;
+  }
 `;
 
 const Messages = styled.div`
@@ -31,10 +41,15 @@ const Messages = styled.div`
   padding: 1rem;
   overflow-y: auto;
   background-color: #f5f7fa;
+
+  @media (max-width: 480px) {
+    padding: 0.75rem;
+  }
 `;
 
 const MessageBubble = styled.div`
   max-width: 75%;
+  width: fit-content;
   margin-bottom: 0.75rem;
   padding: 0.75rem 1rem;
   border-radius: 12px;
@@ -43,8 +58,15 @@ const MessageBubble = styled.div`
   background-color: ${({ from }) =>
     from === "bot" ? "#e0e7ff" : "#d1fae5"};
   color: ${({ from }) => (from === "bot" ? "#1e293b" : "#064e3b")};
-  align-self: ${({ from }) => (from === "bot" ? "flex-start" : "flex-end")};
+  align-self: ${({ from }) =>
+    from === "bot" ? "flex-start" : "flex-end"};
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+
+  @media (max-width: 480px) {
+    max-width: 100%;
+    font-size: 0.9rem;
+    padding: 0.5rem 0.75rem;
+  }
 `;
 
 const InputFooter = styled.form`
@@ -52,6 +74,11 @@ const InputFooter = styled.form`
   border-top: 1px solid #e2e8f0;
   padding: 0.75rem 1rem;
   background-color: #ffffff;
+
+  @media (max-width: 500px) {
+    flex-direction: column;
+    padding: 0.5rem;
+  }
 `;
 
 const TextInput = styled.input`
@@ -67,6 +94,13 @@ const TextInput = styled.input`
     border-color: #0070f3;
     outline: none;
     box-shadow: 0 0 0 3px rgba(0, 112, 243, 0.25);
+  }
+
+  @media (max-width: 500px) {
+    margin-right: 0;
+    margin-bottom: 0.5rem;
+    font-size: 0.95rem;
+    padding: 0.5rem 0.75rem;
   }
 `;
 
@@ -90,10 +124,15 @@ const SendButton = styled.button`
     background-color: #94a3b8;
     cursor: not-allowed;
   }
+
+  @media (max-width: 500px) {
+    width: 100%;
+    padding: 0.75rem;
+    font-size: 0.95rem;
+  }
 `;
 
 export default function Chatbot() {
-  // Derive current month (YYYY-MM)
   const today = new Date();
   const [month] = useState(
     `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, "0")}`
@@ -104,18 +143,14 @@ export default function Chatbot() {
   const [sending, setSending] = useState(false);
   const messagesEndRef = useRef(null);
 
-  // Scroll to bottom whenever msgs changes
   useEffect(() => {
-    if (messagesEndRef.current) {
-      messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
-    }
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [msgs]);
 
   const send = async (e) => {
     e.preventDefault();
     if (!text.trim()) return;
 
-    // 1) Fetch planner data for this month
     let planner = { month, budget: 0, futureExpenses: [] };
     try {
       const planRes = await api.get(`/planner/${month}`);
@@ -124,20 +159,17 @@ export default function Chatbot() {
       console.error("Could not load planner data:", err);
     }
 
-    // 2) Append user message
-    const userMsg = { from: "you", text: text.trim() };
-    setMsgs((prev) => [...prev, userMsg]);
+    setMsgs((prev) => [...prev, { from: "you", text: text.trim() }]);
     const messageText = text.trim();
     setText("");
     setSending(true);
 
-    // 3) Send to advisor, passing planner
     try {
       const res = await api.post(`/advisor/chat`, {
         message: messageText,
         planner,
       });
-      const botReply = res.data.tips || res.data.answer || "No response.";
+      const botReply = res.data.tips?.join("\n") || res.data.answer || "No response.";
       setMsgs((prev) => [...prev, { from: "bot", text: botReply }]);
     } catch (err) {
       console.error("Chatbot error:", err);
@@ -155,10 +187,8 @@ export default function Chatbot() {
       <Header>Budget AI Assistant</Header>
       <Messages>
         {msgs.map((m, i) => (
-          <MessageBubble key={i} from={m.from === "you" ? "user" : "bot"}>
-            <strong>
-              {m.from === "you" ? "You:" : "Assistant:"}
-            </strong>{" "}
+          <MessageBubble key={i} from={m.from}>
+            <strong>{m.from === "you" ? "You:" : "Assistant:"}</strong>{" "}
             {m.text}
           </MessageBubble>
         ))}
@@ -179,4 +209,5 @@ export default function Chatbot() {
     </Container>
   );
 }
+
 
