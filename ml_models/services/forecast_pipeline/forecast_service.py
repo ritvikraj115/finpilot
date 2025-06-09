@@ -10,7 +10,7 @@ import joblib
 from tensorflow.keras.models import load_model
 from config import FILE_PATH, CATEGORY_MODEL_PATH, MODEL_PATH, SCALER_PATH
 import os
-from flask import current_app
+from flask import current_app, make_response
 
 
 # Initialize Flask app
