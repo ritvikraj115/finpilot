@@ -242,7 +242,7 @@ export default function Planner() {
     Apparel: 0,
     Transportation: 0,
     Household: 0,
-    Miscellaneous: 0,
+    Others: 0,
   });
   const [expenses, setExpenses] = useState([]);
 
