@@ -11,7 +11,7 @@ app.use(cors());
 app.use(express.json());
 
 // --- MongoDB Connection
-const MONGO_URI = process.env.MONGO_URI || 'mongodb://localhost:27017/your-db';
+const MONGO_URI = process.env.MONGO_URI || 'mongodb+srv://ritvikrajipl:7BpA6PRvWMJiVY1z@cluster0.lcrcado.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0';
 mongoose.connect(MONGO_URI, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
